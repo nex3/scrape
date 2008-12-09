@@ -27,6 +27,12 @@ comics_dot_com :frazz
 comics_dot_com :rose_is_rose
 comics_dot_com :get_fuzzy
 
+feed :dominic_deegan, 'http://dominic-deegan.com/' do
+  self.time = Time.parse((doc/'#table1 strong nobr').first.inner_text)
+  self.link = "/view.php?date=#{time.strftime('%Y-%m-%d')}"
+  img((doc/'#table1 img').first)
+end
+
 get '/:comic' do
   content_type 'application/atom+xml', :charset => 'utf-8'
   Feeds[params['comic']].render

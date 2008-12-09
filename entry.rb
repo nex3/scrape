@@ -5,7 +5,7 @@ class Entry
     self.feed = feed
     self.created_at = Time.now
 
-    @doc = nil until instance_eval(&feed.opts[:once])
+    @doc = nil until instance_eval(&(feed.opts[:once] || proc {true}))
     self.text ||= instance_eval(&feed.block)
   end
 
