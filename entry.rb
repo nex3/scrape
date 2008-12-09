@@ -1,8 +1,9 @@
 class Entry
-  attr_accessor :feed, :url, :time, :link, :text
+  attr_accessor :feed, :url, :time, :link, :text, :created_at
 
   def initialize(feed)
     self.feed = feed
+    self.created_at = Time.now
 
     @doc = nil until instance_eval(&feed.opts[:once])
     self.text ||= instance_eval(&feed.block)

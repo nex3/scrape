@@ -4,7 +4,7 @@ require 'open-uri'
 require 'haml'
 require 'hpricot'
 require 'cgi'
-require 'active_support/core_ext/string'
+require 'active_support'
 
 dir = File.dirname(__FILE__)
 $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
