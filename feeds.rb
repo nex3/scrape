@@ -1,6 +1,8 @@
+require 'ostruct'
+
 URL = "http://scrape.nex-3.com/"
 
-class Feed < Struct.new(:name, :url, :opts, :block)
+class Feed < Struct.new(:name, :url, :opts, :block, :data)
   def render
     Haml::Engine.new(<<HAML).render(self)
 !!! XML
@@ -23,5 +25,5 @@ end
 Feeds = {}
 def feed(name, url, opts = {}, &block)
   name = name.to_s
-  Feeds[name] = Feed.new(name, url, opts, block)
+  Feeds[name] = Feed.new(name, url, opts, block, OpenStruct.new)
 end
