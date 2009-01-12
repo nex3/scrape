@@ -33,6 +33,18 @@ feed :dominic_deegan, 'http://dominic-deegan.com/' do
   img((doc/'#table1 img').first)
 end
 
+feed :girls_with_slingshots, 'http://daniellecorsetto.com/gws.html' do
+  self.time = Time.now # Yep, it really has no date listed
+  img = (doc/'#gwsblog img').first
+  src = img.attributes['src']
+  break feed.data.last_text if feed.data.last_src == src
+  feed.data.last_src = src
+  src =~ %r{^images/gws/GWS(\d+).jpg$}
+
+  self.link = $1 ? "/archive.php?comic=#{$1}" : "/gws.html"
+  feed.data.last_text = (doc/'#gwsblog').html
+end
+
 get '/:comic' do
   content_type 'application/atom+xml', :charset => 'utf-8'
   Feeds[params['comic']].render
