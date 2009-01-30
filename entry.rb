@@ -1,5 +1,5 @@
 class Entry
-  attr_accessor :feed, :url, :time, :link, :text, :created_at
+  attr_accessor :feed, :url, :time, :link, :title, :text, :created_at
 
   def initialize(feed)
     self.feed = feed
@@ -13,7 +13,7 @@ class Entry
     Haml::Engine.new(<<HAML).render(self)
 %entry
   %id== \#{URL}/\#{feed.name}/\#{text.hash.to_s(16)}
-  %title= time.strftime('%d %B %Y')
+  %title= title || time.strftime('%d %B %Y')
   %updated= time.xmlschema
   %content{:type => "html"}&= text
   - if link
@@ -28,10 +28,14 @@ HAML
   end
 
   def img(el)
-    "<img src='#{h el.attributes['src']}' alt='#{h el.attributes['alt']}'>"
+    "<img src='#{h el.attributes['src']}' alt='#{h el.attributes['alt'] || ''}'>"
   end
 
   def h(str)
     CGI.escapeHTML str
+  end
+
+  def check_updated(token)
+    throw :not_updated if feed.data.last_token == token
   end
 end

@@ -33,16 +33,26 @@ feed :dominic_deegan, 'http://dominic-deegan.com/' do
   img((doc/'#table1 img').first)
 end
 
-feed :girls_with_slingshots, 'http://daniellecorsetto.com/gws.html' do
-  self.time = Time.now # Yep, it really has no date listed
+undated_feed :girls_with_slingshots, 'http://daniellecorsetto.com/gws.html' do
   img = (doc/'#gwsblog img').first
   src = img.attributes['src']
-  break feed.data.last_text if feed.data.last_src == src
-  feed.data.last_src = src
+  check_updated src
   src =~ %r{^images/gws/GWS(\d+).jpg$}
 
   self.link = $1 ? "/archive.php?comic=#{$1}" : "/gws.html"
-  feed.data.last_text = (doc/'#gwsblog').html
+  (doc/'#gwsblog').html
+end
+
+undated_feed :elsie_hooper, 'http://www.elsiehooper.com/todaysserial.htm' do
+  ps = doc/'body > div.font > p'
+  self.title = ps.first.inner_text
+  img = (ps[1]/'img').first
+  src = img.attributes['src']
+  check_updated src
+
+  src =~ %r{^/comics_/elsieh(\d+)}
+  self.link = "/todaysserial.htm"
+  img(img)
 end
 
 get '/:comic' do
