@@ -13,8 +13,8 @@ $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
 require 'entry'
 require 'feeds'
 
-def comics_dot_com(name)
-  feed(name, "http://comics.com/#{name}",
+def comics_dot_com(name, options = {})
+  feed(name, "http://comics.com/#{options[:url] || name}",
        :once => lambda { !(doc/'title').inner_text.include?('404') }) do
     self.time = Time.parse((doc/'.STR_Date').first.inner_text)
     el = (doc/'.STR_StripImage').first
@@ -26,6 +26,7 @@ end
 comics_dot_com :frazz
 comics_dot_com :rose_is_rose
 comics_dot_com :get_fuzzy
+comics_dot_com :arlo_and_janis, :url => 'arlo&janis'
 
 feed :dominic_deegan, 'http://dominic-deegan.com/' do
   self.time = Time.parse((doc/'#table1 strong nobr').first.inner_text)
