@@ -7,6 +7,9 @@ class Entry
 
     @doc = nil until instance_eval(&(feed.opts[:once] || proc {true}))
     self.text ||= instance_eval(&feed.block)
+  rescue Exception => e
+    self.time = Time.now
+    self.text = "<h1>Error: #{h e.class}</h1><h2>#{h e.message}</h2>"
   end
 
   def render
@@ -32,7 +35,7 @@ HAML
   end
 
   def h(str)
-    CGI.escapeHTML str
+    CGI.escapeHTML str.to_s
   end
 
   def check_updated(token)
