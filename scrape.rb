@@ -29,9 +29,9 @@ comics_dot_com :get_fuzzy
 comics_dot_com :arlo_and_janis, :url => 'arlo&janis'
 
 feed :dominic_deegan, 'http://dominic-deegan.com/' do
-  self.time = Time.parse((doc/'#table1 strong nobr').first.inner_text)
+  self.time = Time.parse((doc/'.comic .date').first.inner_text)
   self.link = "/view.php?date=#{time.strftime('%Y-%m-%d')}"
-  img((doc/'#table1 img').first)
+  img((doc/'.comic img').first)
 end
 
 undated_feed :girls_with_slingshots, 'http://daniellecorsetto.com/gws.html' do
