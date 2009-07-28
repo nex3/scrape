@@ -23,10 +23,20 @@ def comics_dot_com(name, options = {})
   end
 end
 
+def gocomics(name, options = {})
+  feed(name, "http://www.gocomics.com/#{options[:url] || name}/") do
+    self.time = Time.parse((doc/'.feature-nav li').first.inner_text)
+    self.link = (doc/'.feature h1 a').first.attributes['href']
+    img((doc/'.feature_item img').first)
+  end
+end
+
 comics_dot_com :frazz
 comics_dot_com :rose_is_rose
 comics_dot_com :get_fuzzy
 comics_dot_com :arlo_and_janis, :url => 'arlo&janis'
+
+gocomics :non_sequitur, :url => 'nonsequitur'
 
 feed :dominic_deegan, 'http://dominic-deegan.com/' do
   self.time = Time.parse((doc/'.comic .date').first.inner_text)
