@@ -27,7 +27,12 @@ HAML
   private
 
   def doc
+    times = 0
     @doc ||= Hpricot(open(feed.url))
+  rescue Errno::ECONNREFUSED => e
+    times += 1
+    retry if times < 3
+    raise e
   end
 
   def img(el)
