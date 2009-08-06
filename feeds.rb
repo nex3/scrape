@@ -1,6 +1,6 @@
 require 'ostruct'
 
-URL = "http://scrape.nex-3.com/"
+URL = "http://scrape.heroku.com/"
 
 class Feed < Struct.new(:name, :url, :opts, :block, :data)
   def render
