@@ -66,6 +66,16 @@ undated_feed :elsie_hooper, 'http://www.elsiehooper.com/todaysserial.htm' do
   img(img)
 end
 
+feed "8_bit_theater", 'http://www.nuklearpower.com/8-bit-theater/' do
+  prev_doc = Hpricot(open((doc/'.navbar-previous a').first.attributes['href']))
+  self.link = (prev_doc/'.navbar-next a').first.attributes['href']
+  self.time = Time.parse(self.link[/[0-9]+\/[0-9]+\/[0-9]+/])
+
+  img = (doc/'#comic img').first
+  self.title = img.attributes['title']
+  img(img)
+end
+
 get '/:comic' do
   content_type 'application/atom+xml', :charset => 'utf-8'
   Feeds[params['comic']].render
