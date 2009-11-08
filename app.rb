@@ -7,7 +7,7 @@ require 'haml'
 require 'hpricot'
 require 'open-uri'
 
-require File.dirname(__FILE__) + '/scrape'
+require File.dirname(__FILE__) + '/lib/scrape'
 
 def comics_dot_com(name, options = {})
   Scrape(name, "http://comics.com/#{options[:url] || name}",

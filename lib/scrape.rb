@@ -2,8 +2,8 @@ require 'active_support'
 
 dir = File.dirname(__FILE__)
 $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
-require 'entry'
-require 'feed'
+require 'scrape/entry'
+require 'scrape/feed'
 
 module Scrape
   class << self
