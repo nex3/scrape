@@ -1,3 +1,8 @@
+require 'cgi'
+require 'hpricot'
+require 'open-uri'
+require 'haml'
+
 class Entry
   attr_accessor :feed, :url, :time, :link, :title, :text, :created_at
 

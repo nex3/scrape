@@ -21,17 +21,3 @@ HAML
     @entry = Entry.new(self)
   end
 end
-
-Feeds = {}
-def feed(name, url, opts = {}, &block)
-  name = name.to_s
-  Feeds[name] = Feed.new(name, url, opts, block, OpenStruct.new)
-end
-
-def undated_feed(*args, &block)
-  feed(*args) do
-    self.time = Time.now
-    feed.data.last_text = catch(:not_updated) {instance_eval(&block)} ||
-      feed.data.last_text
-  end
-end

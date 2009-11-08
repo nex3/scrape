@@ -1,3 +1,3 @@
-require 'scrape'
+require 'app'
 
 run Sinatra::Application
