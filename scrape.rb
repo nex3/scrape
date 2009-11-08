@@ -11,7 +11,7 @@ require 'active_support'
 dir = File.dirname(__FILE__)
 $LOAD_PATH << dir unless $LOAD_PATH.include?(dir)
 require 'entry'
-require 'feeds'
+require 'feed'
 
 def comics_dot_com(name, options = {})
   feed(name, "http://comics.com/#{options[:url] || name}",
