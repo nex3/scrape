@@ -12,6 +12,9 @@ module Scrape
   %link&= url
   %updated&= entry.time.xmlschema
   %id&== \#{URL}/\#{name}
+  - if opts[:author]
+    %author
+      %name&= opts[:author]
 
   = entry.render
 HAML
