@@ -4,6 +4,7 @@ require 'rubygems'
 require 'sinatra'
 require 'haml'
 
+require 'action_view'
 require 'hpricot'
 require 'open-uri'
 
@@ -50,6 +51,15 @@ Scrape "8_bit_theater", 'http://www.nuklearpower.com/8-bit-theater/', :author =>
   img = (doc/'#comic img').first
   self.title = img.attributes['title']
   img(img)
+end
+
+Scrape :reprographics, "http://www.chrisyates.net/reprographics/", :author => "Chris Yates" do
+  normalize_attrs! doc
+  self.time = Time.parse(doc.search('td > center > b').first.inner_text)
+  self.link = doc.search("a > img").
+    find {|img| (img.attributes['src'] || "") =~ /forward\.gif$/}.
+    parent.attributes['href']
+  img(doc.search('center > img').first)
 end
 
 Scrape.undated :girls_with_slingshots, 'http://daniellecorsetto.com/gws.html', :author => "Danielle Corsetto" do

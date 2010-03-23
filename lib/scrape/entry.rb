@@ -52,5 +52,10 @@ HAML
     def check_updated(token)
       throw :not_updated if feed.data.last_token == token
     end
+
+    def normalize_attrs!(el)
+      el.attributes.each {|k, v| el.set_attribute(k.downcase, v)} if el.is_a?(Hpricot::Elem)
+      el.each_child {|el2| normalize_attrs!(el2)} if el.respond_to?(:each_child)
+    end
   end
 end
